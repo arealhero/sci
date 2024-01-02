@@ -1,0 +1,98 @@
+\documentclass[a4paper,14pt]{article}
+
+\usepackage{pgfpages}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+
+\usepackage{physics}
+\usepackage{amsthm, amsmath, amssymb}
+\usepackage{mathtext}
+\usepackage[makeroom]{cancel}
+
+% biber recommends this
+\usepackage{csquotes}
+
+\usepackage[
+    colorlinks=true,
+    linkcolor=black,
+    anchorcolor=black,
+    citecolor=black,
+    filecolor=black,
+    menucolor=black,
+    runcolor=black,
+    urlcolor=black
+]{hyperref}
+\usepackage[backend=biber,citestyle=numeric]{biblatex}
+\addbibresource{~/data/references.bib}
+
+\usepackage{graphicx}
+\usepackage{graphbox}
+\graphicspath{ {./images/} }
+
+\linespread{1.5}
+\setlength{\parindent}{1.25cm}
+
+\usepackage{geometry}
+\geometry{left=3cm}
+\geometry{right=1.5cm}
+\geometry{top=2cm}
+\geometry{bottom=2cm}
+
+% \newtheorem{theorem}{Теорема}
+% \newtheorem{proposition}{Утверждение}
+% \newtheorem{lemma}{Лемма}
+
+% \theoremstyle{definition}
+% \newtheorem{definition}{Определение}
+
+
+\title{Оценка перерегулирования дифференциально-разностных управляемых систем}
+\author{Шаршуков Владислав}
+\date{2023}
+
+\begin{document}
+
+\begin{titlepage}
+  \begin{center}
+    САНКТ-ПЕТЕРБУРГСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ \\
+    Направление: 01.03.02 «Прикладная математика и информатика» \\
+    ООП: Прикладная математика, фундаментальная информатика и программирование \\[4cm]
+
+    \textbf{ОТЧЕТ О НАУЧНО-ИССЛЕДОВАТЕЛЬСКОЙ РАБОТЕ}\\
+  \end{center}
+  \textbf{Тема задания:} Оценка перерегулирования
+  дифференциально-разностных управляемых систем \\[0.5cm]
+  \textbf{Выполнил:} Шаршуков Владислав \qquad 20.Б04-пу \\ [1.5cm]
+  \textbf{Руководитель практики:} \\Жабко Алексей Петрович,
+  доктор физ.-мат. наук, профессор, заведующий кафедрой теории
+  управления
+  \vspace{5cm}
+  \begin{center}
+    Санкт-Петербург\\
+    2023
+  \end{center}
+\end{titlepage}
+
+\setcounter{page}{2}
+
+\begin{center}
+  \tableofcontents
+\end{center}
+
+\newpage
+
+\section{Введение}
+
+\section{Результат}
+
+\newpage
+
+\addcontentsline{toc}{section}{Список использованных источников}
+\renewcommand{\refname}{Список использованных источников}
+\begin{center}
+  \printbibliography{}
+\end{center}
+
+\end{document}
