@@ -14,5 +14,7 @@ if (NOT COMMAND sci_latex)
     endif()
 
     add_latex_document(${SCI_LATEX_COMMAND})
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${target_name}.pdf
+            DESTINATION .)
   endfunction()
 endif()
