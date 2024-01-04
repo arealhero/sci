@@ -40,7 +40,7 @@
 \geometry{top=2cm}
 \geometry{bottom=2cm}
 
-% \newtheorem{theorem}{Теорема}
+\newtheorem{theorem}{Теорема}
 % \newtheorem{proposition}{Утверждение}
 % \newtheorem{lemma}{Лемма}
 
@@ -48,32 +48,15 @@
 % \newtheorem{definition}{Определение}
 
 
-\title{Оценка перерегулирования дифференциально-разностных управляемых систем}
+\title{Оценка степени затухания и перерегулирования в линейной скалярной системе с запаздыванием}
 \author{Шаршуков Владислав}
 \date{2023}
 
 \begin{document}
 
-\begin{titlepage}
-  \begin{center}
-    САНКТ-ПЕТЕРБУРГСКИЙ ГОСУДАРСТВЕННЫЙ УНИВЕРСИТЕТ \\
-    Направление: 01.03.02 «Прикладная математика и информатика» \\
-    ООП: Прикладная математика, фундаментальная информатика и программирование \\[4cm]
+\maketitle
 
-    \textbf{ОТЧЕТ О НАУЧНО-ИССЛЕДОВАТЕЛЬСКОЙ РАБОТЕ}\\
-  \end{center}
-  \textbf{Тема задания:} Оценка перерегулирования
-  дифференциально-разностных управляемых систем \\[0.5cm]
-  \textbf{Выполнил:} Шаршуков Владислав \qquad 20.Б04-пу \\ [1.5cm]
-  \textbf{Руководитель практики:} \\Жабко Алексей Петрович,
-  доктор физ.-мат. наук, профессор, заведующий кафедрой теории
-  управления
-  \vspace{5cm}
-  \begin{center}
-    Санкт-Петербург\\
-    2023
-  \end{center}
-\end{titlepage}
+\newpage
 
 \setcounter{page}{2}
 
@@ -85,7 +68,229 @@
 
 \section{Введение}
 
+\section{Постановка задачи}
+
+Рассмотрим линейную скалярную систему с запаздыванием:
+\begin{equation}
+  \label{eq:main-system}
+  \dot x(t) = a_0 x(t) + a_1 x(t - h), \qquad h = \mathrm{const} > 0.
+\end{equation}
+Будем считать её экспоненциально устойчивой. В этом случае существуют
+постоянные $\sigma > 0$ и $\gamma \geqslant 1$ такие, что
+для любого решения системы~\eqref{eq:main-system} справедлива
+оценка
+\begin{equation*}
+  \abs{x(t, \varphi)} \leqslant \gamma e^{-\sigma t} \norm{\varphi}_h,
+  \qquad
+  t > 0,
+  \quad
+  \varphi \in PC([-h, 0], \mathbb{R}).
+\end{equation*}
+Также будем считать, что $a_1 \neq 0$. Требуется определить $\gamma$ и $\sigma$
+так, чтобы оценка была наилучшей.
+
 \section{Результат}
+
+В работе~\cite{modie2005} было получено условие в виде матричного неравенства,
+при котором можно вычислить значения $\gamma$ и $\sigma$. В скалярном случае этот
+результат можно сформулировать так:
+\begin{theorem}\label{th:modie}
+  Если существуют $P > 0, Q > 0$ и $\beta > 0$ такие, что
+  справедливо неравенство
+  \begin{equation}
+    \label{eq:lmi}
+    \mathcal{M}(P, Q) + 2 \beta \mathcal{N}(P) \prec 0,
+  \end{equation}
+  где
+  \begin{equation*}
+    \begin{aligned}
+      \mathcal{M}(P, Q)
+      &=
+        \begin{bmatrix}
+          2 a_0 P + Q & a_1 P \\
+          a_1 P & - e^{-2 \beta h} Q
+        \end{bmatrix}, \\
+      \mathcal{N}(P)
+      &=
+        \begin{bmatrix}
+          P & 0 \\
+          0 & 0
+        \end{bmatrix},
+    \end{aligned}
+  \end{equation*}
+  тогда
+  \begin{equation*}
+    \abs{x(t, \varphi)} \leqslant \sqrt{ \frac{\alpha_2}{\alpha_1} } e^{-\beta t} \norm{\varphi}_h,
+  \end{equation*}
+  где положительные постоянные $\alpha_1$ и $\alpha_2$ определены как
+  \begin{equation*}
+    \begin{aligned}
+      \alpha_1 &= P, \\
+      \alpha_2 &= P + h Q.
+    \end{aligned}
+  \end{equation*}
+\end{theorem}
+
+Выясним, при каких условиях матрица
+\begin{equation*}
+  \mathcal{M}(P, Q) + 2 \beta \mathcal{N}(P)
+  =
+  \begin{bmatrix}
+    2 (a_0 + \beta) P + Q & a_1 P \\
+    a_1 P & - e^{-2 \beta h} Q
+  \end{bmatrix}
+\end{equation*}
+отрицательно определена. Применяя критерий Сильвестра, получаем
+следующие условия на главные миноры:
+\begin{equation*}
+  \begin{aligned}
+    2 (a_0 + \beta) P + Q &< 0, \\
+    \left[
+    2 (a_0 + \beta) P + Q
+    \right] e^{-2 \beta h} Q + a_1^2 P^2 &< 0.
+  \end{aligned}
+\end{equation*}
+Так как $P > 0$, то
+\begin{equation*}
+  \begin{aligned}
+    2 (a_0 + \beta) + \frac{Q}{P} &< 0, \\
+    \left[
+    2 (a_0 + \beta) + \frac{Q}{P}
+    \right] e^{-2 \beta h} \frac{Q}{P} + a_1^2 &< 0.
+  \end{aligned}
+\end{equation*}
+Введём обозначение: $z = \dfrac{Q}{P}$ (заметим, что $z > 0$). Пользуясь им,
+условия можно переписать в виде
+\begin{equation*}
+  \begin{aligned}
+    2 (a_0 + \beta) + z &< 0, \\
+    \left[
+    2 (a_0 + \beta) + z
+    \right] e^{-2 \beta h} z + a_1^2 &< 0.
+  \end{aligned}
+\end{equation*}
+
+Если $\beta > 0$ задана, то из первого условия следует, что
+\begin{equation*}
+  0 < z < -2 (a_0 + \beta).
+\end{equation*}
+Значит,
+\begin{equation*}
+  a_0 + \beta < 0,
+  \implies
+  0 < \beta < - a_0,
+\end{equation*}
+откуда следует, что $a_0 < 0$.
+
+Рассмотрим теперь второе условие:
+\begin{equation*}
+  \left[
+    2 (a_0 + \beta) + z
+  \right] e^{-2 \beta h} z + a_1^2
+  =
+  \left[
+    2 (a_0 + \beta) z + z^2
+  \right] e^{-2 \beta h} + a_1^2 < 0.
+\end{equation*}
+Так как $e^{-2 \beta h} > 0$, то его можно переписать в виде
+\begin{equation*}
+  z^2 + 2 (a_0 + \beta) z + a_1^2 e^{2 \beta h} < 0.
+\end{equation*}
+Найдём корни этого квадратного трёхчлена. Пусть
+\begin{equation*}
+  D = 4 {(a_0 + \beta)}^2 - 4 a_1^2 e^{2 \beta h} = 4 D_1,
+\end{equation*}
+где
+\begin{equation*}
+  D_1 = {(a_0 + \beta)}^2 - a_1^2 e^{2 \beta h}.
+\end{equation*}
+Так как $z \in \mathbb{R}$, то $D \geqslant 0$. Найдём такое $\beta \in (0, -a_0)$,
+при котором $D = 0$, то есть
+\begin{equation}
+  \label{eq:D-zero}
+  {(a_0 + \beta)}^2 = a_1^2 e^{2 \beta h}.
+\end{equation}
+На рассматриваемом интервале левая часть~\eqref{eq:D-zero} монотонно убывает, а
+правая часть монотонно возрастает. Учитывая, что при $\beta = 0$ левая часть
+равна $a_0^2$, а правая часть --- $a_1^2$, то уравнение будет иметь решение на
+интервале $(0, -a_0)$ только при $a_0^2 > a_1^2$.
+
+Преобразуем уравнение~\eqref{eq:D-zero}:
+\begin{equation*}
+  \abs{a_0 + \beta} = \abs{a_1} e^{\beta h}.
+\end{equation*}
+Так как $\beta \in (0, -a_0)$, то $\abs{a_0 + \beta} = - (a_0 + \beta)$,
+поэтому
+\begin{equation*}
+  e^{\beta h} = - \frac{1}{\abs{a_1}} (a_0 + \beta).
+\end{equation*}
+Заметим, что $a_1 \neq 0$ по условию задачи.
+
+Пользуясь $W$-функцией Ламберта~\cite{corless1996}, решение этого
+трансцендентного уравнения представимо в виде:
+\begin{equation*}
+  \beta = \beta_0 = -a_0 - \frac{1}{h} W(\abs{a_1} h e^{-a_0 h}).
+\end{equation*}
+Если же $\beta < \beta_0$, то $D > 0$, причём
+\begin{equation*}
+  \begin{aligned}
+    z_1 &= -(a_0 + \beta) + \sqrt{D_1}, \\
+    z_2 &= -(a_0 + \beta) - \sqrt{D_1}.
+  \end{aligned}
+\end{equation*}
+Очевидно, что $z_1 > 0$ и $z_1 > z_2$. Так как справедлива оценка
+\begin{equation*}
+  \sqrt{D_1}
+  =
+  \sqrt{
+    {(a_0 + \beta)}^2 - a_1^2 e^{2 \beta h}
+  }
+  < \abs{a_0 + \beta}
+  = -(a_0 + \beta),
+\end{equation*}
+то приходим к выводу, что $z_2 > 0$. Отсюда следует, что
+неравенство
+\begin{equation*}
+  \begin{aligned}
+    z^2 + 2 (a_0 + \beta) z + a_1^2 e^{2 \beta h}
+    =
+    (z - z_1) (z - z_2) < 0
+  \end{aligned}
+\end{equation*}
+будет справедливо для всех $z \in (z_1, z_2)$. Так как
+\begin{equation*}
+  \gamma
+  = \sqrt{\frac{\alpha_2}{\alpha_1}}
+  = \sqrt{\frac{P + h Q}{P}}
+  = \sqrt{1 + h z},
+\end{equation*}
+то, взяв $z = z_1 + \varepsilon$ для некоторого $\varepsilon > 0$, получим
+минимальное значение для $\gamma$.
+
+\subsection{Улучшение результата}
+
+Пусть матрица $\mathcal{M}(P, Q) + \mathcal{N}(P)$ отрицательно
+полуопределена, то есть
+\begin{equation*}
+  \mathcal{M}(P, Q) + \mathcal{N}(P) \preceq 0.
+\end{equation*}
+
+Воспользуемся обобщённым критерием Сильвестра~\cite[стр.~184]{ilin2014}:
+\begin{equation*}
+  \begin{aligned}
+    \Delta_1
+    &=
+      2 (a_0 + \beta) P + Q \leqslant 0, \\
+    \Delta_2
+    &=
+      -e^{-2 \beta h} Q \leqslant 0, \\
+    \Delta_{1,2}
+    &=
+      \left[
+      2 (a_0 + \beta) P + Q
+      \right] e^{-2 \beta h} Q + a_1^2 P^2 \leqslant 0.
+  \end{aligned}
+\end{equation*}
 
 \newpage
 

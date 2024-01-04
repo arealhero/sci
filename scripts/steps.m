@@ -17,33 +17,29 @@ SHOW_ABS = false;
 fprintf(" --- Estimate ---\n");
 eps = 1e-6;
 
-beta = -A0 - lambertw (abs(A1) * H * e^(-A0 * H)) / H;
+beta = -A0 - lambertw (abs(A1) * H * e^(-A0 * H)) / H - eps
 
-## D = (A0 + beta)^2 - A1^2 * e^(2 * beta * H)
+D = (A0 + beta)^2 - A1^2 * e^(2 * beta * H)
 ## z_eps = 0.01;
 ## z = -2 * (A0 + beta) - z_eps;
-## z = - (A0 + beta) - sqrt(D) - eps;
-z = eps
+first_root = - (A0 + beta) + sqrt(D)
+second_root = - (A0 + beta) - sqrt(D)
+z = second_root + eps
+## z = eps
 
 first = 2 * (A0 + beta) + z;
 second = first * z * e^(-2 * beta * H) + A1^2;
-
-## D = 4 * (A0 + beta)^2 + A1^4 * e^(4 * beta * H);
 
 fprintf("Testing LMI\n");
 fprintf("First: %d\n", first);
 fprintf("Second: %d\n", second);
 
-## second_test = (z + (A0 + beta) + sqrt(D) / 2) * (z + (A0 + beta) - sqrt(D) / 2);
-
-## fprintf("Second (test): %d\n", second_test);
-
 if first >= 0
   fprintf("First should be less than zero!\n");
-  ## return
+  return
 elseif second >= 0
   fprintf("Second should be less than zero!\n");
-  ## return
+  return
 end
 
 ## A1 = A0;
