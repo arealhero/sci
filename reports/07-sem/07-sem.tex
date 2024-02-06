@@ -40,12 +40,14 @@
 \geometry{top=2cm}
 \geometry{bottom=2cm}
 
-% \newtheorem{theorem}{Теорема}
+\newtheorem{theorem}{Теорема}
 % \newtheorem{proposition}{Утверждение}
-% \newtheorem{lemma}{Лемма}
+\newtheorem{lemma}{Лемма}
+\newtheorem{problem}{Задача}
 
-% \theoremstyle{definition}
-% \newtheorem{definition}{Определение}
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}
+\newtheorem{corollary}{Следствие}
 
 
 \title{Оценка перерегулирования дифференциально-разностных управляемых систем}
@@ -106,7 +108,8 @@
 В этом случае справедливо~\cite[стр.~66]{kharitonov2013}, что если
 $U(\tau)$ --- матрица Ляпунова для матрицы $W = W_0 + W_1 + W_2 h$, причём
 $W_0, W_1, W_2 > 0$, то функционал полного типа
-\begin{equation*}
+\begin{equation}
+  \label{eq:complete-type-functional}
   \begin{aligned}
     v(\varphi)
     &=
@@ -126,10 +129,10 @@ $W_0, W_1, W_2 > 0$, то функционал полного типа
       W_1 + (h + \theta) W_2
       \right] \varphi^2(\theta) d\theta
   \end{aligned}
-\end{equation*}
+\end{equation}
 допускает оценку
 \begin{equation}
-  \label{eq:estimate}
+  \label{eq:functional-estimation}
   \alpha_1 \norm{\varphi(0)}^2
   \leqslant
   v(\varphi)
@@ -150,9 +153,9 @@ $W_0, W_1, W_2 > 0$, то функционал полного типа
 Заметим, что $\alpha_1$ и $\alpha_2$ можно рассматривать как функции переменных
 $W_0, W_1, W_2$, поэтому можно поставить оптимизационную задачу: найти
 максимальное значение для $\alpha_1$ и минимальное значение для $\alpha_2$, при
-которых оценка~\eqref{eq:estimate} справедлива.
+которых оценка~\eqref{eq:functional-estimation} справедлива.
 
-\section{Результат}
+\section{Основной результат}
 
 Известно~\cite[стр.~51]{kharitonov2013}, что если система~\eqref{eq:main-system}
 удовлетворяет условию Ляпунова, т.е. если спектр этой системы
@@ -162,8 +165,834 @@ $W_0, W_1, W_2$, поэтому можно поставить оптимизац
 не содержит ни одного корня $s_0$ такого, чтобы и $-s_0$ принадлежал спектру
 $\Lambda$, то для любой симметричной матрицы $W$ существует единственная матрица
 Ляпунова $U(\tau)$. Очевидно, для любой экспоненциально устойчивой системы
-условие Ляпунова выполняется. Для нахождения матрицы Ляпунова достаточно решить
-вспомогательную систему уравнений
+условие Ляпунова выполняется. Тогда по данной матрице Ляпунова $U(\tau)$
+можно построить функционал полного типа~\eqref{eq:complete-type-functional},
+допускающий оценку~\eqref{eq:functional-estimation}.
+
+\subsection{Вывод условий для нахождения $\alpha_1$}
+
+Рассмотрим вспомогательный функционал
+\begin{equation*}
+  \begin{aligned}
+    g_1(\varphi)
+    &=
+      v(\varphi) - \alpha_1 \norm{\varphi(0)}^2 = \\
+    &=
+      \left( U(0) - \alpha_1 \right) \varphi^2(0)
+      +
+      2 a_1 \varphi(0) \int\limits_{-h}^{0} U(-h - \theta) \varphi(\theta) d\theta
+      + \\
+    &\phantom{=}
+      +
+      \int\limits_{-h}^{0} a_1^2 \varphi(\theta_1) \left[
+      \int\limits_{-h}^{0} U(\theta_1 - \theta_2) \varphi(\theta_2) d\theta_2
+      \right] d\theta_1
+      + \\
+    &\phantom{=}
+      +
+      \int\limits_{-h}^{0} \left[
+      W_1 + (h + \theta) W_2
+      \right] \varphi^2(\theta) d\theta.
+  \end{aligned}
+\end{equation*}
+Из оценки~\eqref{eq:functional-estimation} следует, что $g_1(\varphi) \geqslant 0$.
+Понятно, что в случае тривиальной функции $\varphi(t) \equiv 0, \; t \in [-h, 0]$
+функционал достигает своего минимума: $g_1(\varphi) = 0$. Однако в этом случае
+оценка~\eqref{eq:functional-estimation} выполняется для любых $\alpha_1, \alpha_2$.
+Выясним, при каких нетривиальных функциях $\varphi(t)$ и соответствующих им значениях
+$\alpha_1$ у функционала $g_1(\varphi)$ найдутся точки, подозрительные на экстремум.
+
+Необходимым условием экстремума функционала $g_1(\varphi)$ является условие равенства
+нулю его первой вариации~\cite[стр.~19]{gelfand1961}:
+\begin{equation}
+  \label{eq:necessary-cond}
+  \delta g_1(\varphi) = 0.
+\end{equation}
+Для её вычисления воспользуемся следующим определением~\cite[стр.~289]{elsgolc1969}:
+\begin{equation}
+  \label{eq:variation-def}
+  \delta g_1(\varphi) = \left.
+    \frac{\partial}{\partial \alpha} g_1(\varphi + \alpha \delta \varphi)
+  \right|_{\alpha = 0}.
+\end{equation}
+Введём вспомогательные обозначения:
+\begin{equation*}
+  \begin{aligned}
+    P_1(\varphi)
+    &=
+      2 a_1 \varphi(0) \int\limits_{-h}^{0} U(-h - \theta) \varphi(\theta) d\theta, \\
+    P_2(\varphi)
+    &=
+      \int\limits_{-h}^{0} a_1^2 \varphi(\theta_1) \left[
+      \int\limits_{-h}^{0} U(\theta_1 - \theta_2) \varphi(\theta_2) d\theta_2
+      \right] d\theta_1.
+  \end{aligned}
+\end{equation*}
+Прежде всего, пользуясь свойством симметричности матрицы Ляпунова~\cite[стр.~38]{kharitonov2013}
+\begin{equation}
+  \label{eq:lyapunov-symmetric-property}
+  U(-\tau) = U^T(\tau), \qquad \tau \geqslant 0,
+\end{equation}
+перепишем выражение для $P_1(\varphi)$ в виде
+\begin{equation*}
+  P_1(\varphi)
+  =
+  2 a_1 \varphi(0) \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta.
+\end{equation*}
+Вычислим теперь первую вариацию $\delta P_1(\varphi)$ этого функционала. Пользуясь
+определением~\eqref{eq:variation-def}, последовательно получаем
+\begin{equation*}
+  \begin{aligned}
+    P_1(\varphi + \alpha \varphi)
+    &=
+      2 a_1 (\varphi(0) + \alpha \delta\varphi(0))
+      \int\limits_{-h}^{0} U(\theta + h) (\varphi(\theta) + \alpha \delta\varphi(\theta)) d\theta,
+    \\
+    \frac{\partial }{\partial \alpha}
+    P_1(\varphi + \alpha \varphi)
+    &=
+      2 a_1 \delta\varphi(0)
+      \int\limits_{-h}^{0} U(\theta + h) (\varphi(\theta) + \alpha \delta\varphi(\theta)) d\theta
+      +
+      2 a_1 (\varphi(0) + \alpha \delta\varphi(0))
+      \int\limits_{-h}^{0} U(\theta + h) \delta\varphi(\theta) d\theta,
+    \\
+    \delta P_1(\varphi)
+    &=
+      2 a_1 \delta\varphi(0)
+      \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+      +
+      2 a_1 \varphi(0)
+      \int\limits_{-h}^{0} U(\theta + h) \delta\varphi(\theta) d\theta.
+  \end{aligned}
+\end{equation*}
+Аналогичным образом вычислим $\delta P_2(\varphi)$:
+\begin{equation*}
+  \begin{aligned}
+    P_2(\varphi + \alpha \varphi)
+    &=
+      \int\limits_{-h}^{0} a_1^2 (\varphi(\theta_1) + \alpha \delta \varphi(\theta_1))
+      \left[
+      \int\limits_{-h}^{0}
+      U(\theta_1 - \theta_2) (\varphi(\theta_2) + \alpha \delta \varphi(\theta_2))
+      d\theta_2
+      \right]
+      d\theta_1
+    \\
+    \frac{\partial }{\partial \alpha}
+    P_2(\varphi + \alpha \varphi)
+    &=
+      \int\limits_{-h}^{0} a_1^2 \delta \varphi(\theta_1)
+      \left[
+      \int\limits_{-h}^{0}
+      U(\theta_1 - \theta_2) (\varphi(\theta_2) + \alpha \delta \varphi(\theta_2))
+      d\theta_2
+      \right]
+      d\theta_1
+      + \\
+    &\phantom{=}
+      +
+      \int\limits_{-h}^{0} a_1^2 (\varphi(\theta_1) + \alpha \delta \varphi(\theta_1))
+      \left[
+      \int\limits_{-h}^{0}
+      U(\theta_1 - \theta_2) \delta \varphi(\theta_2)
+      d\theta_2
+      \right]
+      d\theta_1
+    \\
+    \delta P_2(\varphi)
+    &=
+      \int\limits_{-h}^{0} a_1^2 \delta \varphi(\theta_1)
+      \left[
+      \int\limits_{-h}^{0}
+      U(\theta_1 - \theta_2) \varphi(\theta_2)
+      d\theta_2
+      \right]
+      d\theta_1
+      + \\
+    &\phantom{=}
+      +
+      \int\limits_{-h}^{0} a_1^2 \varphi(\theta_1)
+      \left[
+      \int\limits_{-h}^{0}
+      U(\theta_1 - \theta_2) \delta \varphi(\theta_2)
+      d\theta_2
+      \right]
+      d\theta_1.
+  \end{aligned}
+\end{equation*}
+
+Для последующих упрощений нам потребуется следующая
+\begin{lemma}\label{lemma:symmetric-functional}
+  Функционал
+  \begin{equation}
+    \label{eq:lemma-1-functional}
+    h(\varphi, \psi)
+    =
+    \int\limits_{-h}^{0} \varphi(\theta_1)
+    \left[
+      \int\limits_{-h}^{0} U(\theta_2 - \theta_1) \psi(\theta_2) d\theta_2
+    \right]
+    d\theta_1
+  \end{equation}
+  симметричен, то есть $h(\varphi, \psi) = h(\psi, \varphi)$.
+\end{lemma}
+
+\begin{proof}
+  Запишем функционал $h(\varphi, \psi)$ в виде
+  \begin{equation*}
+    h(\varphi, \psi)
+    =
+    \int\limits_{-h}^{0}
+    \int\limits_{-h}^{0} U(\theta_2 - \theta_1) \varphi(\theta_1) \psi(\theta_2)
+    d\theta_1
+    d\theta_2.
+  \end{equation*}
+  Так как пределы интегрирования не зависят от $\theta_1$ и $\theta_2$, то порядок
+  интегрирования можно поменять:
+  \begin{equation*}
+    h(\varphi, \psi)
+    =
+    \int\limits_{-h}^{0} \psi(\theta_2)
+    \left[
+      \int\limits_{-h}^{0} U(\theta_2 - \theta_1) \varphi(\theta_1) d\theta_1
+    \right]
+    d\theta_2.
+  \end{equation*}
+  Заменим теперь $\theta_1$ на $\theta_2$, а $\theta_2$ --- на $\theta_1$:
+  \begin{equation*}
+    h(\varphi, \psi)
+    =
+    \int\limits_{-h}^{0} \psi(\theta_1)
+    \left[
+      \int\limits_{-h}^{0} U(\theta_1 - \theta_2) \varphi(\theta_2) d\theta_2
+    \right]
+    d\theta_1.
+  \end{equation*}
+  Воспользуемся теперь свойством симметричности матрицы
+  Ляпунова~\eqref{eq:lyapunov-symmetric-property}:
+  \begin{equation*}
+    \begin{aligned}
+      h(\varphi, \psi)
+      &=
+        \int\limits_{-h}^{0} \psi(\theta_1)
+        \left[
+        \int\limits_{-h}^{0} U(\theta_1 - \theta_2) \varphi(\theta_2) d\theta_2
+        \right]
+        d\theta_1 = \\
+      &=
+        \int\limits_{-h}^{0} \psi(\theta_1)
+        \left[
+        \int\limits_{-h}^{0} U(\theta_2 - \theta_1) \varphi(\theta_2) d\theta_2
+        \right]
+        d\theta_1.
+    \end{aligned}
+  \end{equation*}
+  Сравнивая правую часть полученного равенства с определением
+  функционала~\eqref{eq:lemma-1-functional}, окончательно приходим
+  к выводу, что
+  \begin{equation*}
+    h(\varphi, \psi) = h(\psi, \varphi).
+  \end{equation*}
+\end{proof}
+Пользуясь леммой~\ref{lemma:symmetric-functional}, первую вариацию функционала $P_2(\varphi)$
+можно записать как
+\begin{equation*}
+  \delta P_2(\varphi)
+  =
+  2
+  \int\limits_{-h}^{0} a_1^2 \delta \varphi(\theta_1)
+  \left[
+    \int\limits_{-h}^{0}
+    U(\theta_1 - \theta_2) \varphi(\theta_2)
+    d\theta_2
+  \right]
+  d\theta_1.
+\end{equation*}
+Итак, окончательно получаем выражение для первой вариации функционала $g_1(\varphi)$:
+\begin{equation*}
+  \begin{aligned}
+    \delta g_1(\varphi)
+    &=
+      2 \left( U(0) - \alpha_1 \right) \varphi(0) \delta \varphi(0)
+      + \\
+    &\phantom{=}
+      +
+      2 a_1 \delta\varphi(0)
+      \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+      +
+      2 a_1 \varphi(0)
+      \int\limits_{-h}^{0} U(\theta + h) \delta\varphi(\theta) d\theta
+      + \\
+    &\phantom{=}
+      +
+      2
+      \int\limits_{-h}^{0} a_1^2 \delta \varphi(\theta_1)
+      \left[
+      \int\limits_{-h}^{0}
+      U(\theta_1 - \theta_2) \varphi(\theta_2)
+      d\theta_2
+      \right]
+      d\theta_1
+      + \\
+    &\phantom{=}
+      +
+      2 \int\limits_{-h}^{0}
+      \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta) \delta \varphi(\theta)
+      d\theta.
+  \end{aligned}
+\end{equation*}
+Соберём слагаемые при одинаковых вариациях функции $\varphi$:
+\begin{equation*}
+  \begin{aligned}
+    \delta g_1(\varphi)
+    &=
+      2
+      \left[
+      \left( U(0) - \alpha_1 \right) \varphi(0)
+      +
+      a_1
+      \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+      \right] \delta \varphi(0)
+      + \\
+    &\phantom{=}
+      +
+      2
+      \int\limits_{-h}^{0}
+      \left[
+      a_1 \varphi(0)
+      U(\theta + h)
+      +
+      a_1^2
+      \int\limits_{-h}^{0}
+      U(\theta - \theta_2) \varphi(\theta_2)
+      d\theta_2
+      +
+      \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+      \right]
+      \delta \varphi(\theta)
+      d\theta.
+  \end{aligned}
+\end{equation*}
+Рассмотрим сначала ситуацию, когда вариация функции $\varphi$ на конце
+рассматриваемого промежутка равна нулю, то есть $\delta \varphi(0) = 0$.
+Тогда из необходимого условия экстремума функционала~\eqref{eq:necessary-cond}
+следует, что
+\begin{equation*}
+  \int\limits_{-h}^{0}
+  \left[
+    a_1 \varphi(0)
+    U(\theta + h)
+    +
+    a_1^2
+    \int\limits_{-h}^{0}
+    U(\theta - \theta_2) \varphi(\theta_2)
+    d\theta_2
+    +
+    \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+  \right]
+  \delta \varphi(\theta)
+  d\theta
+  = 0.
+\end{equation*}
+В силу произвольности вариации $\delta \varphi$ из основной леммы
+вариационного исчисления~\cite[стр.~295]{elsgolc1969} следует,
+что
+\begin{equation*}
+  a_1 \varphi(0)
+  U(\theta + h)
+  +
+  a_1^2
+  \int\limits_{-h}^{0}
+  U(\theta - \theta_2) \varphi(\theta_2)
+  d\theta_2
+  +
+  \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+  = 0.
+\end{equation*}
+
+Пусть теперь $\delta \varphi(0) \neq 0$. Тогда из необходимого условия
+экстремума функционала~\eqref{eq:necessary-cond} следует, что
+\begin{equation*}
+  \left[
+    \left( U(0) - \alpha_1 \right) \varphi(0)
+    +
+    a_1
+    \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+  \right] \delta \varphi(0)
+  = 0,
+\end{equation*}
+откуда в силу произвольности вариации $\delta \varphi(0)$
+следует, что
+\begin{equation*}
+  \left( U(0) - \alpha_1 \right) \varphi(0)
+  +
+  a_1
+  \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+  = 0.
+\end{equation*}
+
+Итак, объединяя полученные результаты, получаем необходимые условия
+экстремума функционала $g_1(\varphi)$:
+\begin{align}
+  \label{eq:necessary-cond-for-g1-1}
+  a_1 \varphi(0)
+  U(\theta + h)
+  +
+  a_1^2
+  \int\limits_{-h}^{0}
+  U(\theta - \theta_2) \varphi(\theta_2)
+  d\theta_2
+  +
+  \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+  = 0, \\
+  \label{eq:necessary-cond-for-g1-2}
+  \left( U(0) - \alpha_1 \right) \varphi(0)
+  +
+  a_1
+  \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+  = 0.
+\end{align}
+Рассмотрим уравнение~\eqref{eq:necessary-cond-for-g1-1}. Так как
+$W_1, W_2 > 0$, а $\theta \in [-h, 0]$, то
+\begin{equation*}
+  W_1 + (h + \theta) W_2 > 0,
+\end{equation*}
+поэтому можно разделить обе части этого уравнения на эту величину:
+\begin{equation*}
+    a_1 \varphi(0)
+    U(\theta + h)
+    \frac{1}{W_1 + (\theta + h) W_2}
+    +
+    a_1^2
+    \frac{1}{W_1 + (\theta + h) W_2}
+    \int\limits_{-h}^{0}
+    U(\theta - \theta_2) \varphi(\theta_2)
+    d\theta_2
+    +
+    \varphi(\theta)
+    = 0.
+\end{equation*}
+Введём обозначения:
+\begin{equation}
+  \label{eq:necessary-cond-notation}
+  \begin{aligned}
+    K_1(\theta, t)
+    &=
+      \frac{U(\theta - t)}{W_1 + (\theta + h) W_2},
+    &
+      f_1(\theta)
+    &=
+      - a_1
+      \frac{U(\theta + h)}{W_1 + (\theta + h) W_2},
+    &
+      \lambda &= -a_1^2, \\
+    K_2(\theta, t)
+    &=
+      a_1 U(\theta + h),
+    &
+      f_2(\theta, \alpha_1)
+    &=
+      \alpha_1 - U(0)
+  \end{aligned}
+\end{equation}
+Используя их, уравнения~\eqref{eq:necessary-cond-for-g1-1}
+и~\eqref{eq:necessary-cond-for-g1-2} окончательно представляются
+в виде
+\begin{align}
+  \label{eq:g1-fredholm-2}
+  \varphi(\theta)
+  &=
+    \lambda
+    \int\limits_{-h}^{0}
+    K_1(\theta, t)
+    \varphi(t)
+    dt
+    + f_1(\theta) \varphi(0), \\
+  \label{eq:g1-fredholm-1}
+  f_2(\theta, \alpha_1) \varphi(0)
+  &=
+    \int\limits_{-h}^{0}
+    K_2(\theta, t)
+    \varphi(t)
+    dt.
+\end{align}
+Так как ядра $K_1(\theta, t)$ и $K_2(\theta, t)$ полученных интегральных
+уравнений непрерывны в квадрате
+\begin{equation*}
+  S = \left\{ -h \leqslant \theta \leqslant 0, -h \leqslant t \leqslant 0 \right\},
+\end{equation*}
+то они являются фредгольмовыми~\cite[стр.~78]{manzhirov2000}, а сами
+уравнения~\eqref{eq:g1-fredholm-2} и~\eqref{eq:g1-fredholm-2} представляют собой
+интегральные уравнения Фредгольма 2-го и 1-го рода соответственно.
+
+\subsection{Вывод условий для нахождения $\alpha_2$}
+
+Рассмотрим вспомогательный функционал
+\begin{equation*}
+  g_2(\varphi)
+  =
+  v(\varphi) - \alpha_2 \norm{\varphi}_h^2.
+\end{equation*}
+Из оценки~\eqref{eq:functional-estimation} следует, что $g_2(\varphi) \leqslant 0$.
+По аналогии с функционалом $g_1(\varphi)$ выясним, при каких нетривиальных функциях
+$\varphi(t)$ и соответствующих им значениях $\alpha_2$ найдутся точки, подозрительные
+на экстремум.
+
+Рассмотрим выражение $g_2(\varphi + \alpha \delta \varphi)$. Пусть
+\begin{equation*}
+  \theta^*
+  = \arg\sup_{\theta \in [-h, 0]} \abs{\varphi(\theta) + \alpha \delta \varphi(\theta)},
+\end{equation*}
+тогда
+\begin{equation*}
+  g_2(\varphi + \alpha \delta \varphi)
+  = v(\varphi + \alpha \delta \varphi)
+  - \alpha_2 {(\varphi(\theta^*) + \alpha \delta \varphi(\theta^*))}^2.
+\end{equation*}
+Заметим, что в частном случае точка $\theta^*$ может совпадать с точкой, в которой
+достигается супремум функции $\abs{\varphi(\theta)}$.
+
+Пользуясь выкладками, полученными в предыдущем пункте, запишем выражение для первой вариации
+функционала $g_2(\varphi)$:
+\begin{equation*}
+  \begin{aligned}
+    \delta g_2(\varphi)
+    &=
+      2
+      \left[
+      U(0) \varphi(0)
+      +
+      a_1
+      \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+      \right] \delta \varphi(0)
+      -
+      2 \alpha_2 \varphi(\theta^*) \delta \varphi(\theta^*)
+      + \\
+    &\phantom{=}
+      +
+      2
+      \int\limits_{-h}^{0}
+      \left[
+      a_1 \varphi(0)
+      U(\theta + h)
+      +
+      a_1^2
+      \int\limits_{-h}^{0}
+      U(\theta - \theta_2) \varphi(\theta_2)
+      d\theta_2
+      +
+      \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+      \right]
+      \delta \varphi(\theta)
+      d\theta.
+  \end{aligned}
+\end{equation*}
+Предположим, что $\theta^* \neq 0$, тогда из независимости вариаций следуют следующие
+необходимые условия экстремума функционала $g_2(\varphi)$:
+\begin{equation*}
+  \begin{aligned}
+  a_1 \varphi(0)
+  U(\theta + h)
+  +
+  a_1^2
+  \int\limits_{-h}^{0}
+  U(\theta - \theta_2) \varphi(\theta_2)
+  d\theta_2
+  +
+  \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+  = 0, \\
+  U(0) \varphi(0)
+  +
+  a_1
+  \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+    = 0, \\
+    \alpha_2 \varphi(\theta^*) = 0.
+  \end{aligned}
+\end{equation*}
+Заметим, что $\varphi(\theta^*) \neq 0$, так как в противном случае из определения
+точки $\theta^*$ следовало бы, что $\varphi(t) \equiv 0, t \in [-h, 0]$. Учитывая,
+что $\alpha_2 > 0$, заключаем, что нетривиальные функции, для которых $\theta^* \neq 0$,
+не являются экстремалями функционала $g_2(\varphi)$.
+
+Рассмотрим теперь функции, для которых $\theta^* = 0$. В этом случае необходимые
+условия экстремума функционала $g_2(\varphi)$ примут вид
+\begin{equation*}
+  \begin{aligned}
+  a_1 \varphi(0)
+  U(\theta + h)
+  +
+  a_1^2
+  \int\limits_{-h}^{0}
+  U(\theta - \theta_2) \varphi(\theta_2)
+  d\theta_2
+  +
+  \left[ W_1 + (h + \theta) W_2 \right] \varphi(\theta)
+  = 0, \\
+  (U(0) - \alpha_2) \varphi(0)
+  +
+  a_1
+  \int\limits_{-h}^{0} U(\theta + h) \varphi(\theta) d\theta
+    = 0.
+  \end{aligned}
+\end{equation*}
+Пользуясь обозначениями~\eqref{eq:necessary-cond-notation}, эти условия можно записать
+в виде
+\begin{equation*}
+  \begin{aligned}
+    \varphi(\theta)
+    &=
+      \lambda
+      \int\limits_{-h}^{0}
+      K_1(\theta, t)
+      \varphi(t)
+      dt
+      + f_1(\theta) \varphi(0), \\
+    f_2(\theta, \alpha_2) \varphi(0)
+    &=
+      \int\limits_{-h}^{0}
+      K_2(\theta, t)
+      \varphi(t)
+      dt.
+  \end{aligned}
+\end{equation*}
+Выходит, что вид условий для экстремалей функционала $g_2(\varphi)$ совпадает с условиями для
+экстремалей функционала $g_1(\varphi)$. Заметим, что ключевое различие заключается
+в том, что $g_1(\varphi) \geqslant 0$, а $g_2(\varphi) \leqslant 0$.
+
+\subsection{Анализ множеств $\mathcal{A}_0$, $\mathcal{A}_+$ и $\mathcal{A}_-$}
+
+Рассмотрим функционал
+\begin{equation*}
+  g(\varphi, \alpha) = v(\varphi) - \alpha \varphi^2(0).
+\end{equation*}
+Пусть $\mathbb{R}_+$ --- множество вещественных положительных чисел.
+Обозначим через $\mathcal{F}_0 \subset PC([-h, 0], \mathbb{R})$ множество нетривиальных
+кусочно-непрерывных функций, обращающих функционал $g(\varphi, \alpha)$ в ноль при некотором
+$\alpha \in \mathbb{R}_+$. Множество таких $\alpha$ обозначим за $\mathcal{A}_0$, то есть
+\begin{equation*}
+  \mathcal{A}_0 = \left\{
+    \alpha \in \mathbb{R}_+: \exists \varphi \in \mathcal{F}_0 \quad g(\varphi, \alpha) = 0
+  \right\}.
+\end{equation*}
+Введём два дополнительных обозначения:
+\begin{equation*}
+  \begin{aligned}
+    \mathcal{A}_+
+    &=
+      \left\{
+      \alpha \in \mathbb{R}_+ :
+      g(\varphi, \alpha) \geqslant 0 \quad \forall \varphi \in PC([-h, 0], \mathbb{R})
+      \right\} \subset \mathbb{R}_+, \\
+    \mathcal{A}_-
+    &=
+      \left\{
+      \alpha \in \mathbb{R}_+ :
+      g(\varphi, \alpha) \leqslant 0 \quad \forall \varphi \in PC([-h, 0], \mathbb{R})
+      \right\} \subset \mathbb{R}_+.
+  \end{aligned}
+\end{equation*}
+Заметим, что из существования оценки~\eqref{eq:functional-estimation} следует, что
+множества $\mathcal{A}_+$ и $\mathcal{A}_-$ непусты.
+
+\begin{lemma}
+  Множества $\mathcal{A}_+$ и $\mathcal{A}_-$ выпуклы.
+\end{lemma}
+
+\begin{proof}
+  Пусть $\alpha_1, \alpha_2 \in \mathcal{A}_+$, тогда для любой
+  $\varphi \in PC([-h, 0], \mathbb{R})$ выполняются неравенства
+  \begin{equation*}
+      g(\varphi, \alpha_1) \geqslant 0, \qquad
+      g(\varphi, \alpha_2) \geqslant 0,
+  \end{equation*}
+  или, иначе,
+  \begin{equation*}
+    \alpha_1 \varphi^2(0) \leqslant v(\varphi),
+    \qquad
+    \alpha_2 \varphi^2(0) \leqslant v(\varphi).
+  \end{equation*}
+  Составим линейную комбинацию $\alpha = (1 - \lambda) \alpha_1 + \lambda \alpha_2$,
+  где $\lambda \in [0, 1]$, и рассмотрим выражение
+  \begin{equation*}
+    \alpha \varphi^2(0)
+    =
+    (1 - \lambda) \alpha_1 \varphi^2(0) + \lambda \alpha_2 \varphi^2(0)
+    \leqslant
+    (1 - \lambda) v(\varphi) + \lambda v(\varphi)
+    = v(\varphi).
+  \end{equation*}
+  Значит, $g(\varphi, \alpha) \geqslant 0$. В силу произвольности $\varphi$ заключаем,
+  что $\alpha \in \mathcal{A}_+$.
+
+  Выпуклость множества $\mathcal{A}_-$ доказывается аналогично.
+\end{proof}
+
+\begin{lemma}
+  Множества $\mathcal{A}_+$ и $\mathcal{A}_-$ замкнуты.
+\end{lemma}
+
+\begin{proof}
+  Из выпуклости множества $\mathcal{A}_+$ следует, что его граница состоит из единственной
+  точки $\left\{ \bar\alpha \right\}$. Достижимость этой точки следует из теоремы
+  Больцано--Коши~\cite[стр.~188]{fihtengolc2003}, а тот факт, что
+  $\bar\alpha \in \mathcal{A}_+$, проверяется по определению множества $\mathcal{A}_+$.
+\end{proof}
+
+\begin{corollary}\label{cor:minA-maxA}
+  $\max \mathcal{A}_+ = \min \mathcal{A}_0$ и $\min \mathcal{A}_- = \max \mathcal{A}_0$.
+\end{corollary}
+
+\begin{corollary}\label{cor:A0-non-empty}
+  Множество $\mathcal{A}_0$ непусто и замкнуто.
+\end{corollary}
+
+\subsection{Анализ множеств $\mathcal{A}$ и $\mathcal{A}^*$}
+
+Обозначим через $\mathcal{F} \subset PC([-h, 0], \mathbb{R})$ множество нетривиальных
+кусочно-непрерывных функций, удовлетворяющих условиям
+\begin{align}
+  \label{eq:fredholm-2}
+  \varphi(\theta)
+  &=
+    \lambda
+    \int\limits_{-h}^{0}
+    K_1(\theta, t)
+    \varphi(t)
+    dt
+    + f_1(\theta) \varphi(0), \\
+  \label{eq:fredholm-1}
+  f_2(\theta, \alpha) \varphi(0)
+  &=
+    \int\limits_{-h}^{0}
+    K_2(\theta, t)
+    \varphi(t)
+    dt
+\end{align}
+при некотором $\alpha \in \mathbb{R}_+$. Множество всех таких $\alpha$ будем обозначать
+как $\mathcal{A} \subset \mathbb{R}_+$.
+
+Ясно, что глобальный минимум и максимум соответственно функционалов $g_1(\varphi)$ и
+$g_2(\varphi)$ будут реализовываться только на экстремалях $\varphi^* \in \mathcal{F}$
+и соответствующих им $\alpha^* \in \mathcal{A}$, удовлетворяющих условию
+\begin{equation}
+  \label{eq:g=0}
+  g(\varphi^*, \alpha^*) = 0,
+\end{equation}
+причём для функционала $g_1(\varphi)$ также должно выполняться условие
+\begin{equation}
+  \label{eq:g1-global-min}
+  g(\varphi, \alpha^*) \geqslant 0 \qquad \forall \varphi \in PC([-h, 0], \mathbb{R}),
+\end{equation}
+а для $g_2(\varphi)$ --- условие
+\begin{equation}
+  \label{eq:g2-global-max}
+  g(\varphi, \alpha^*) \leqslant 0 \qquad \forall \varphi \in PC([-h, 0], \mathbb{R}).
+\end{equation}
+Введём обозначения
+\begin{equation*}
+  \mathcal{F}^* = \mathcal{F} \cap \mathcal{F}_0,
+  \qquad
+  \mathcal{A}^* = \mathcal{A} \cap \mathcal{A}_0.
+\end{equation*}
+Также через $\mathcal{A}_\geqslant^* \subset \mathcal{A}^*$ и
+$\mathcal{F}_\geqslant^* \subset \mathcal{F}^*$ будем обозначать параметры
+и соответствующие им функции, удовлетворяющие условию~\eqref{eq:g1-global-min}, а через
+$\mathcal{A}_\leqslant^* \subset \mathcal{A}^*$ и
+$\mathcal{F}_\leqslant^* \subset \mathcal{F}^*$ --- условию~\eqref{eq:g2-global-max}.
+
+\begin{lemma}
+  Множества $\mathcal{A}_\geqslant^*$ и $\mathcal{A}_\leqslant^*$
+  содержат ровно по одному элементу.
+\end{lemma}
+
+\begin{proof}
+  Рассмотрим множество $\mathcal{A}_\geqslant^*$. Доказательство для множества
+  $\mathcal{A}_\leqslant^*$ проводится аналогично.
+
+  Докажем, что $\mathcal{A}_\geqslant^* \neq \varnothing$.
+  Одновременное выполнение условий~\eqref{eq:g=0} и~\eqref{eq:g1-global-min} означает, что
+  \begin{itemize}
+    \item $\alpha^*$ является граничной точкой множества $\mathcal{A}_+$, поэтому
+          $\alpha^* \in \mathcal{A}_0$ из следствия~\ref{cor:minA-maxA};
+    \item функция $\varphi^*$ является точкой минимума функционала $g(\varphi, \alpha^*)$,
+          поэтому она должна удовлетворять необходимым условиям
+          экстремума~\eqref{eq:fredholm-2} и~\eqref{eq:fredholm-1}
+          (значит, $\varphi^* \in \mathcal{F}$ и $\alpha^* \in \mathcal{A}$).
+  \end{itemize}
+  Отсюда следует, что $\varphi^* \in \mathcal{F}^*$ и $\alpha^* \in \mathcal{A}^*$. Учитывая,
+  что выполняется условие~\eqref{eq:g1-global-min}, заключаем, что
+  $\varphi^* \in \mathcal{F}_\geqslant^*$ и $\alpha^* \in \mathcal{A}_\geqslant^*$.
+
+  Докажем, что множество $\mathcal{A}_\geqslant^*$ не может иметь более одного элемента.
+  Пойдём от противного. Пусть существуют $\alpha_1, \alpha_2 \in \mathcal{A}_\geqslant^*$,
+  причём $\alpha_1 \neq \alpha_2$, которым соответствуют функции
+  $\varphi_1, \varphi_2 \in \mathcal{F}_\geqslant^*$. Заметим, что функционал
+  $g(\varphi, \alpha)$ как функция параметра $\alpha$ является линейной, поэтому
+  $\varphi_1 \neq \varphi_2$.
+
+  Положим для определённости, что $\alpha_1 < \alpha_2$. Так как
+  $\alpha_1, \alpha_2 \in \mathcal{A}_\geqslant^*$, то выполнены условия
+  \begin{equation*}
+    g(\varphi_1, \alpha_1) = 0,
+    \qquad
+    g(\varphi_2, \alpha_2) = 0.
+  \end{equation*}
+  Но
+  \begin{equation*}
+    0 = g(\varphi_1, \alpha_1) = v(\varphi_1) - \alpha_1 \varphi_1^2(0)
+    > v(\varphi_1) - \alpha_2 \varphi_1^2(0) = v(\varphi_1, \alpha_2).
+  \end{equation*}
+  Выходит, что для функции $\varphi_1$ выполняется неравенство
+  \begin{equation*}
+    v(\varphi_1, \alpha_2) < 0,
+  \end{equation*}
+  что противоречит тому, что $\alpha_2 \in \mathcal{A}_\geqslant^*$.
+\end{proof}
+Пусть $\alpha^* = \max \mathcal{A}_+$, а $\alpha_* = \min \mathcal{A}_-$.
+
+\begin{theorem}
+  $\alpha^* = \min \mathcal{A}^*$ и $\alpha_* = \max \mathcal{A}^*$.
+\end{theorem}
+
+\begin{proof}
+  Множество $\mathcal{A}^*$ непусто, так как непусты множества $\mathcal{A}$
+  и $\mathcal{A}_0$. Рассмотрим два элемента $\alpha_1, \alpha_2 \in \mathcal{A}^*$ и
+  соответствующие им функции $\varphi_1, \varphi_2 \in \mathcal{F}^*$, причём для
+  определённости положим $\alpha_1 < \alpha_2$. Так как
+  $\alpha_1, \alpha_2 \in \mathcal{A}_0$, то
+  \begin{equation*}
+    g(\varphi_1, \alpha_1) = 0, \qquad g(\varphi_2, \alpha_2) = 0.
+  \end{equation*}
+  Но
+  \begin{equation*}
+    g(\varphi_1, \alpha_1) = v(\varphi_1) - \alpha_1 \varphi_1^2(0)
+    > v(\varphi_1) - \alpha_2 \varphi_1^1(0) = g(\varphi_1, \alpha_2).
+  \end{equation*}
+  Выходит, что для функции $\varphi_1$ выполняется неравенство
+  \begin{equation*}
+    v(\varphi_1, \alpha_2) < 0,
+  \end{equation*}
+  поэтому $\varphi_2$ не может быть минимумом функционала $g_1(\varphi)$.
+
+  Таким образом, в любой паре $(\alpha_1, \alpha_2)$, где $\alpha_1 < \alpha_2$,
+  соответствующая параметру $\alpha_2$ функция $\varphi_2$ не доставляет функционалу
+  $g_1(\varphi)$ глобальный минимум.
+\end{proof}
+
+Алгоритм нахождения элементов $\alpha^* \in \mathcal{A}_\geqslant^*$ и
+$\alpha_* \in \mathcal{A}_\leqslant^*$ такой:
+\begin{enumerate}
+  \item находим экстремали $\varphi$ и соответствующие им параметры $\alpha$ из
+        условий~\eqref{eq:fredholm-2} и~\eqref{eq:fredholm-1};
+  \item среди всех экстремалей выбираем те, для которых выполняется условие~\eqref{eq:g=0};
+  \item находим $\alpha^* = \min \mathcal{A}^*$ и $\alpha_* = \max \mathcal{A}^*$.
+\end{enumerate}
+
+\newpage
+\section{Конкретные случаи}
+
+Для нахождения матрицы Ляпунова достаточно решить вспомогательную систему уравнений
 \begin{equation}
   \label{eq:aux-system}
   \begin{aligned}
@@ -290,8 +1119,8 @@ $\Lambda$, то для любой симметричной матрицы $W$ с
       \right)
       (a_1 h + 1) = \\
     &=
-      \frac{h a_0^2}{a_1} - h a_1
-      - \frac{2 a_0}{a_1} - 2
+      \frac{a_0^2 h}{a_1} - a_1 h
+      - \frac{2 a_0}{a_1} - 2.
   \end{aligned}
 \end{equation*}
 Так как $a_0^2 = a_1^2$, то
@@ -382,1108 +1211,28 @@ $a_0 < 0$ (см. $D$-разбиение в~\cite[стр.~126]{elsgolc1971}
   \qquad \tau \in [0, h].
 \end{equation*}
 
-\subsubsection{Минимизация функционала полного типа}
-Построим функционал полного типа, следуя~\cite{kharitonov2013}.  В
-рассматриваемом случае
+Подставим найденную матрицу Ляпунова в первое необходимое
+условие~\eqref{eq:fredholm-2}; тогда
 \begin{equation*}
   \begin{aligned}
-    v_0(\varphi)
+    K(\theta, t)
     &=
-      \frac{a_1 h - 1}{4 a_1} \varphi^2(0)
-      + 2 \varphi(0)
-      \int\limits_{-h}^0 \left(
-      \frac{W}{2} (h + \theta) + \frac{a_1 h - 1}{4a_1} W
-      \right) a_1 \varphi(\theta) d\theta + \\
-    &\phantom{=}
-      + \int\limits_{-h}^0 \varphi(\theta_1) a_1 \left[
-      \int\limits_{-h}^0 \left(
-      \frac{W}{2} (\theta_2 - \theta_1)
-      + \frac{a_1 h - 1}{4 a_1} W
-      \right) a_1 \varphi(\theta_2) d\theta_2
-      \right] d\theta_1
-  \end{aligned}
-\end{equation*}
-Тогда функционал полного типа имеет вид
-\begin{equation*}
-  \begin{aligned}
-    v(\varphi)
-    &=
-      v_0(\varphi)
-      +
-      \int\limits_{-h}^0 \left[
-      W_1 + (h + \theta) W_2
-      \right] \varphi^2(\theta) d\theta.
-  \end{aligned}
-\end{equation*}
-Введём обозначения:
-\begin{equation*}
-  \begin{aligned}
-    P_1(\varphi)
-    &=
-      \int\limits_{-h}^0 \left(
-      \frac{a_1 W}{2} (h + \theta) + \frac{a_1 h - 1}{4} W
-      \right) \varphi(\theta) d\theta, \\
-    P_2(\varphi)
-    &=
-      \int\limits_{-h}^0 \varphi(\theta_1) \left[
-      \int\limits_{-h}^0 \left(
-      \frac{a_1 W}{2} (\theta_2 - \theta_1)
-      + \frac{a_1 h - 1}{4} W
-      \right) \varphi(\theta_2) d\theta_2
-      \right] d\theta_1.
-  \end{aligned}
-\end{equation*}
-Упростим эти слагаемые:
-\begin{equation*}
-  \begin{aligned}
-    P_1(\varphi)
-    &=
-      \frac{a_1 W h}{2}
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      \frac{a_1 W}{2}
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta
-      +
-      \frac{a_1 h - 1}{4} W
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta = \\
-    &=
-      \left(
-      \frac{a_1 W h}{2}
-      +
-      \frac{a_1 h - 1}{4} W
-      \right)
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      \frac{a_1 W}{2}
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta = \\
-    &=
-      \frac{3 a_1 h - 1}{4}
-      W
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      \frac{a_1 W}{2}
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta, \\
-    P_2(\varphi)
-    &=
-      \int\limits_{-h}^{0} \varphi(\theta_1) \left[
-      \frac{a_1 W}{2}
-      \int\limits_{-h}^{0} \theta_2 \varphi(\theta_2) d\theta_2
-      - \frac{a_1 W \theta_1}{2}
-      \int\limits_{-h}^{0} \varphi(\theta_2) d\theta_2
-      + \frac{a_1 h - 1}{4} W
-      \int\limits_{-h}^{0} \varphi(\theta_2) d\theta_2
-      \right] d\theta_1 = \\
-    &=
-      \cancel{
-      \frac{a_1 W}{2}
-      \int\limits_{-h}^{0} \varphi(\theta_1) d\theta_1
-      \int\limits_{-h}^{0} \theta_2 \varphi(\theta_2) d\theta_2
-      }
-      -
-      \cancel{
-      \frac{a_1 W}{2}
-      \int\limits_{-h}^{0} \theta_1 \varphi(\theta_1) d\theta_1
-      \int\limits_{-h}^{0} \varphi(\theta_2) d\theta_2
-      } + \\
-    &\phantom{=}
-      + \frac{a_1 h - 1}{4} W
-      \int\limits_{-h}^{0} \varphi(\theta_1) d\theta_1
-      \int\limits_{-h}^{0} \varphi(\theta_2) d\theta_2 = \\
-    &=
-      \frac{a_1 h - 1}{4} W
-      \int\limits_{-h}^{0} \varphi(\theta_1) d\theta_1
-      \int\limits_{-h}^{0} \varphi(\theta_2) d\theta_2.
-  \end{aligned}
-\end{equation*}
-Итак, функционал полного типа будет иметь вид
-\begin{equation*}
-  \begin{aligned}
-    v(\varphi)
-    &=
-      \frac{a_1 h - 1}{4 a_1} \varphi^2(0)
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \varphi(0)
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      a_1 W \varphi(0)
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta + \\
-    &\phantom{=}
-      +
-      \frac{a_1^2 h - a_1}{4} W
-      {\left(
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      \right)}^2
-      +
-      \left( W_1 + h W_2 \right)
-      \int\limits_{-h}^{0} \varphi^2(\theta) d\theta
-      +
-      W_2
-      \int\limits_{-h}^{0} \theta \varphi^2(\theta) d\theta.
+      \begin{cases}
+      \end{cases}
   \end{aligned}
 \end{equation*}
 
-Перепишем нижнюю оценку~\eqref{eq:estimate} в виде
 \begin{equation*}
-  v(\varphi) - \alpha_1 \varphi^2(0) \geqslant 0.
-\end{equation*}
-Найдём минимум функционала на множестве непрерывных
-на отрезке $[-h, 0]$ функций:
-\begin{equation*}
-  \begin{aligned}
-    g(\varphi)
-    &:=
-      v(\varphi) - \alpha_1 \varphi^2(0) = \\
-    &=
-      \left(
-      \frac{a_1 h - 1}{4 a_1}
-      - \alpha_1
-      \right)
-      \varphi^2(0)
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \varphi(0)
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      a_1 W \varphi(0)
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta + \\
-    &\phantom{=}
-      +
-      \frac{a_1^2 h - a_1}{4} W
-      {\left(
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      \right)}^2
-      +
-      \left( W_1 + h W_2 \right)
-      \int\limits_{-h}^{0} \varphi^2(\theta) d\theta
-      +
-      W_2
-      \int\limits_{-h}^{0} \theta \varphi^2(\theta) d\theta.
-  \end{aligned}
-\end{equation*}
-Заметим, что тривиальная начальная функция $\varphi \equiv 0$
-нас не интересует, так как для неё оценки~\eqref{eq:estimate} справедливы
-при всех $\alpha_1, \alpha_2$.
-
-Необходимое условие слабого минимума функционала --- равенство нулю первой
-вариации~\cite[стр.~289]{elsgolc1969}:
-\begin{equation*}
-  \delta g(\varphi(t))
+  K(\theta, t)
   =
-  {\left.
-    \frac{\partial }{\partial \alpha} g(\varphi(t) + \alpha \delta \varphi)
-  \right|}_{\alpha = 0} = 0.
-\end{equation*}
-Так как
-\begin{equation*}
-  \begin{aligned}
-    g(\varphi(t) + \alpha \delta \varphi)
-    &=
-      \left(
-      \frac{a_1 h - 1}{4 a_1}
-      - \alpha_1
-      \right)
-      {\left(
-      \varphi(0) + \alpha \delta \varphi(0)
-      \right)}^2
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \left( \varphi(0) + \alpha \delta \varphi(0) \right)
-      \int\limits_{-h}^{0} \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right) d\theta + \\
-    &\phantom{=}
-      +
-      a_1 W \left( \varphi(0) + \alpha \delta \varphi(0) \right)
-      \int\limits_{-h}^{0} \theta \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right)d\theta
-      +
-      \frac{a_1^2 h - a_1}{4} W
-      {\left(
-      \int\limits_{-h}^{0} \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right) d\theta
-      \right)}^2 + \\
-    &\phantom{=}
-      +
-      \left( W_1 + h W_2 \right)
-      \int\limits_{-h}^{0} {\left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right)}^2 d\theta
-      +
-      W_2
-      \int\limits_{-h}^{0} \theta {\left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right)}^2 d\theta,
-  \end{aligned}
-\end{equation*}
-то
-\begin{equation}
-  \label{eq:first-pd}
-  \begin{aligned}
-    \frac{\partial }{\partial \alpha}
-    g(\varphi(t) + \alpha \delta \varphi)
-    &=
-      \left(
-      \frac{a_1 h - 1}{2 a_1}
-      - 2 \alpha_1
-      \right)
-      \left(
-      \varphi(0) + \alpha \delta \varphi(0)
-      \right)
-      \delta \varphi(0)
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \delta \varphi(0)
-      \int\limits_{-h}^{0} \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right) d\theta + \\
-    &\phantom{=}
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \left( \varphi(0) + \alpha \delta \varphi(0) \right)
-      \int\limits_{-h}^{0} \delta \varphi d\theta
-      +
-      a_1 W \delta \varphi(0)
-      \int\limits_{-h}^{0} \theta \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right)d\theta + \\
-    &\phantom{=}
-      +
-      a_1 W \left( \varphi(0) + \alpha \delta \varphi(0) \right)
-      \int\limits_{-h}^{0} \theta \delta \varphi d\theta
-      +
-      \frac{a_1^2 h - a_1}{2} W
-      \left(
-      \int\limits_{-h}^{0} \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right) d\theta
-      \right)
-      \int\limits_{-h}^{0} \delta \varphi d\theta
-      + \\
-    &\phantom{=}
-      +
-      2 \left( W_1 + h W_2 \right)
-      \int\limits_{-h}^{0} \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right) \delta \varphi d\theta
-      +
-      2 W_2
-      \int\limits_{-h}^{0} \theta \left(
-      \varphi(\theta) + \alpha \delta \varphi
-      \right) \delta \varphi d\theta.
-  \end{aligned}
-\end{equation}
-Окончательно имеем
-\begin{equation*}
-  \begin{aligned}
-    \delta g(\varphi(t))
-    &=
-      {\left.
-      \frac{\partial }{\partial \alpha} g(\varphi(t) + \alpha \delta \varphi)
-      \right|}_{\alpha = 0} = \\
-    &=
-      \left(
-      \frac{a_1 h - 1}{2 a_1}
-      - 2 \alpha_1
-      \right)
-      \varphi(0)
-      \delta \varphi(0)
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \delta \varphi(0)
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta + \\
-    &\phantom{=}
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \varphi(0)
-      \int\limits_{-h}^{0} \delta \varphi d\theta
-      +
-      a_1 W \delta \varphi(0)
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta + \\
-    &\phantom{=}
-      +
-      a_1 W \varphi(0)
-      \int\limits_{-h}^{0} \theta \delta \varphi d\theta
-      +
-      \frac{a_1^2 h - a_1}{2} W
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      \cdot
-      \int\limits_{-h}^{0} \delta \varphi d\theta
-      + \\
-    &\phantom{=}
-      +
-      2 \left( W_1 + h W_2 \right)
-      \int\limits_{-h}^{0} \varphi(\theta)
-      \delta \varphi d\theta
-      +
-      2 W_2
-      \int\limits_{-h}^{0} \theta \varphi(\theta)
-      \delta \varphi d\theta = \\
-    &=
-      \left[
-      \left(
-      \frac{a_1 h - 1}{2 a_1}
-      - 2 \alpha_1
-      \right)
-      \varphi(0)
-      +
-      \frac{3 a_1 h - 1}{2}
-      W
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      a_1 W
-      \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta
-      \right] \delta \varphi(0)
-      + \\
-    &\phantom{=}
-      \int\limits_{-h}^{0}
-      \left[
-      \frac{3 a_1 h - 1}{2}
-      W
-      \varphi(0)
-      +
-      a_1 W \varphi(0) \theta
-      +
-      \frac{a_1^2 h - a_1}{2} W
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      \right. \\
-    &\phantom{=}
-      \left.
-      \phantom{\int\limits_{-h}^{0}}
-      +
-      2 \left( W_1 + h W_2 \right)
-      \varphi(\theta)
-      +
-      2 W_2
-      \theta \varphi(\theta)
-      \right] \delta \varphi d\theta = 0.
-  \end{aligned}
-\end{equation*}
-Если $\delta \varphi(0) = 0$, то необходимое условие принимает вид
-\begin{equation*}
-  \begin{aligned}
-    \delta g(\varphi)
-    &=
-      \int\limits_{-h}^{0}
-      \left[
-      \frac{3 a_1 h - 1}{2}
-      W
-      \varphi(0)
-      +
-      a_1 W \varphi(0) \theta
-      +
-      \frac{a_1^2 h - a_1}{2} W
-      \int\limits_{-h}^{0} \varphi(\theta) d\theta
-      +
-      \right. \\
-    &\phantom{=}
-      \left.
-      \phantom{\int\limits_{-h}^{0}}
-      +
-      2 \left( W_1 + h W_2 \right)
-      \varphi(\theta)
-      +
-      2 W_2
-      \theta \varphi(\theta)
-      \right] \delta \varphi d\theta = 0.
-  \end{aligned}
-\end{equation*}
-Из основной леммы вариационного исчисления~\cite[стр.~295]{elsgolc1969}
-следует первое необходимое условие минимума функционала:
-\begin{equation}
-  \label{eq:necessity-1}
-  \frac{3 a_1 h - 1}{2}
-  W
-  \varphi(0)
-  +
-  a_1 W \varphi(0) t
-  +
-  \frac{a_1^2 h - a_1}{2} W
-  \int\limits_{-h}^{0} \varphi(\theta) d\theta
-  +
-  2 \left( W_1 + h W_2 \right)
-  \varphi(t)
-  +
-  2 W_2
-  t \varphi(t) = 0.
-\end{equation}
-Пусть теперь $\delta \varphi(0)$ произвольно. Тогда, учитывая необходимое
-условие~\eqref{eq:necessity-1}, первая вариация принимает вид
-\begin{equation*}
-  \delta g(\varphi(t))
-  =
-  \left[
-    \left(
-      \frac{a_1 h - 1}{2 a_1}
-      - 2 \alpha_1
-    \right)
-    \varphi(0)
-    +
-    \frac{3 a_1 h - 1}{2}
-    W
-    \int\limits_{-h}^{0} \varphi(\theta) d\theta
-    +
-    a_1 W
-    \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta
-  \right] \delta \varphi(0) = 0.
-\end{equation*}
-Так как $\delta \varphi(0)$ --- произвольная внутренняя точка множества
-значений функции $\varphi$, то получаем второе необходимое условие
-минимума функционала:
-\begin{equation}
-  \label{eq:necessity-2}
-  \left(
-    \frac{a_1 h - 1}{2 a_1}
-    - 2 \alpha_1
-  \right)
-  \varphi(0)
-  +
-  \frac{3 a_1 h - 1}{2}
-  W
-  \int\limits_{-h}^{0} \varphi(\theta) d\theta
-  +
-  a_1 W
-  \int\limits_{-h}^{0} \theta \varphi(\theta) d\theta
-  = 0.
-\end{equation}
-Итак, необходимые условия слабого экстремума для функционала
-$g(\varphi)$ можно записать так:
-\begin{equation}
-  \label{eq:necessary-conds}
-  \begin{aligned}
-    \left[
-    \frac{3 a_1 h - 1}{2}
-    W
-    +
-    a_1 W t
-    \right] \varphi(0)
-    +
-    \frac{a_1^2 h - a_1}{2} W
-    \int\limits_{-h}^{0} \varphi(\theta) d\theta
-    +
-    2
-    \left[
-    W_1
-    + W_2
-    \left( h + t \right)
-    \right]
-    \varphi(t)
-    &=
-      0, \\
-    \left(
-    \frac{a_1 h - 1}{2 a_1}
-    - 2 \alpha_1
-    \right)
-    \varphi(0)
-    +
-    \int\limits_{-h}^{0}
-    \left[
-    \frac{3 a_1 h - 1}{2}
-    W
-    +
-    a_1 W \theta
-    \right] \varphi(\theta) d\theta
-    &=
-      0.
-  \end{aligned}
-\end{equation}
-
-\subsubsection{Вычисление экстремали}
-Заметим, что первое из необходимых условий~\eqref{eq:necessary-conds} является
-интегральным уравнением Фредгольма второго рода, а второе --- интегральным
-уравнением Фредгольма первого рода. Их можно переписать в более привычном виде:
-\begin{equation*}
-  \begin{gathered}
-    \varphi(t)
-    =
-    \int\limits_{-h}^{0}
-      \frac{(a_1 - a_1^2 h) W}{4 (W_1 + W_2 (h + t))}
-      \varphi(\theta) d\theta
-    -
-    \frac{W (3 a_1 h - 1 + 2 a_1 t)}{4 (W_1 + W_2 (h + t))}
-    \varphi(0), \\
-    \int\limits_{-h}^{0}
-    \left[
-      \frac{3 a_1 h - 1}{2}
-      W
-      +
-      a_1 W \theta
-    \right] \varphi(\theta) d\theta
-    =
-    \left(
-      2 \alpha_1
-      -
-      \frac{a_1 h - 1}{2 a_1}
-    \right)
-    \varphi(0).
-  \end{gathered}
-\end{equation*}
-
-Рассмотрим первое уравнение, считая, что $\varphi(0) = \varphi_0$:
-\begin{equation}
-  \label{eq:first-fredholm}
-  \varphi(t) = \lambda \int\limits_{-h}^{0} K(t, \theta) \varphi(\theta) d\theta + f(t),
-\end{equation}
-где введены обозначения
-\begin{equation*}
-  \lambda = 1,
+  \frac{U(\theta - t)}{W_1 + (\theta + h) W_2},
   \qquad
-  K(t, \theta) = \frac{(a_1 - a_1^2 h) W}{4 (W_1 + W_2 (h + t))},
+  f(\theta)
+  =
+  - a_1 \varphi_0
+  \frac{U(\theta + h)}{W_1 + (\theta + h) W_2},
   \qquad
-  f(t)
-  = -\frac{W (3 a_1 h - 1 + 2 a_1 t)}{4 (W_1 + W_2 (h + t))} \varphi_0.
-\end{equation*}
-Ядро $K(t, \theta)$ является вырожденным~\cite[стр.~189]{bicadze1982}:
-\begin{equation*}
-  K(t, \theta) = \frac{(a_1 - a_1^2 h) W}{4 (W_1 + W_2 (h + t))} = p(t),
-\end{equation*}
-поэтому исходное уравнение можно переписать в виде
-\begin{equation}
-  \label{eq:first-fredholm-sol}
-  \varphi(t) = f(t) + \lambda c p(t),
-\end{equation}
-где ${\displaystyle c = \int\limits_{-h}^{0} \varphi(\theta) d\theta}$ ---
-неизвестная постоянная. Для определения этой постоянной подставим
-представление~\eqref{eq:first-fredholm-sol} решения в исходное
-уравнение~\eqref{eq:first-fredholm}, получаем
-\begin{equation*}
-  f(t) + \lambda c p(t)
-  =
-  \lambda \int\limits_{-h}^{0}
-  p(t) \left[ f(\theta) + \lambda c p(\theta) \right] d\theta
-  + f(t),
-\end{equation*}
-или
-\begin{equation*}
-  p(t) \left[
-    c -
-    \int\limits_{-h}^{0}
-    \left[ f(\theta) + \lambda c p(\theta) \right] d\theta
-  \right]
-  = 0,
-\end{equation*}
-откуда, в силу того, что $p(t) \neq 0$, следует равенство
-\begin{equation*}
-  c -
-  \int\limits_{-h}^{0}
-  \left[ f(\theta) + \lambda c p(\theta) \right] d\theta
-  = 0.
-\end{equation*}
-Путём простых преобразований приходим к уравнению
-\begin{equation*}
-  c \left(
-  1 - \lambda \int\limits_{-h}^{0} p(\theta) d\theta
-  \right)
-  =
-  \int\limits_{-h}^{0} f(\theta) d\theta.
-\end{equation*}
-Вычислим интеграл:
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0} p(\theta) d\theta
-    &=
-      \int\limits_{-h}^{0} \frac{(a_1 - a_1^2 h) W}{4 (W_1 + W_2 (h + \theta))} d\theta = \\
-    &=
-      \frac{(a_1 - a_1^2 h) W}{4 W_2}
-      \int\limits_{-h}^{0} \frac{1}{W_1 + W_2 (h + \theta)} d(W_1 + W_2 (h + \theta)) = \\
-    &=
-      \frac{(a_1 - a_1^2 h) W}{4 W_2}
-      \ln \left[W_1 + W_2 (h + \theta)\right] \Big|_{-h}^{0} = \\
-    &=
-      \frac{(a_1 - a_1^2 h) W}{4 W_2}
-      \left[ \ln (W_1 + W_2 h) - \ln W_1 \right] = \\
-    &=
-      \frac{(a_1 - a_1^2 h) W}{4 W_2}
-      \ln \left( 1 + \frac{W_2}{W_1} h \right).
-  \end{aligned}
-\end{equation*}
-Заметим, что он не равен единице: из предположений
-\begin{equation*}
-  W_0, W_1, W_2 > 0, \qquad h > 0
-\end{equation*}
-следует, что логарифм и знаменатель больше нуля. Так как мы рассматриваем
-случай $a_0^2 = a_1^2$, то из экспоненциальной устойчивости уравнения~\eqref{eq:main-system}
-следует, что $a_1 < 0$, поэтому числитель меньше нуля и, следовательно, всё это
-выражение меньше нуля.
-
-Это в свою очередь означает, что $\lambda = 1$ не является собственным числом
-ядра $K(t, \theta)$, поэтому из первой теоремы Фредгольма~\cite[стр.~191]{bicadze1982}
-следует, что $\varphi(t)$ определяется единственным образом для любой непрерывной
-правой части $f(t)$. Нетрудно убедиться, что $f(t)$ является непрерывной функцией
-на отрезке $[-h, 0]$.
-
-Для нахождения константы $c$ вычислим интеграл
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0} f(\theta) d\theta
-    &=
-      - \int\limits_{-h}^{0} \frac{W (3 a_1 h - 1 + 2 a_1 \theta)}{4 (W_1 + W_2 (h + \theta))} \varphi_0 d\theta
-      =
-      - \frac{\varphi_0 W}{4}
-      \int\limits_{-h}^{0} \frac{(3 a_1 h - 1) + 2 a_1 \theta}{(W_1 + W_2 h) + W_2 \theta} d\theta.
-  \end{aligned}
-\end{equation*}
-Так как
-\begin{equation}
-  \label{eq:int-formula}
-  \begin{aligned}
-    \int\limits_{-h}^{0} \frac{c_1 + d_1 \theta}{c_2 + d_2 \theta} d\theta
-    &=
-      \frac{c_1}{d_2} \int\limits_{-h}^{0} \frac{1}{c_2 + d_2 \theta} d(c_2 + d_2 \theta)
-      +
-      \frac{d_1}{d_2} \int\limits_{-h}^{0} \frac{c_2 + d_2 \theta - c_2}{c_2 + d_2 \theta} d\theta
-      = \\
-    &=
-      \frac{c_1}{d_2} \ln \abs{c_2 + d_2 \theta} \Big|_{-h}^0
-      +
-      \frac{d_1}{d_2} \int\limits_{-h}^{0} d \theta
-      -
-      \frac{d_1 c_2}{d_2^2} \int\limits_{-h}^{0} \frac{1}{c_2 + d_2 \theta} d(c_2 + d_2 \theta)
-      = \\
-    &=
-      \frac{c_1}{d_2} \left(
-      \ln \abs{c_2} - \ln \abs{c_2 - d_2 h}
-      \right)
-      +
-      \frac{d_1}{d_2} h
-      -
-      \frac{d_1 c_2}{d_2^2} \ln \abs{c_2 + d_2 \theta} \Big|_{-h}^0
-      = \\
-    &=
-      \frac{c_1 d_2 - d_1 c_2}{d_2^2} \left(
-      \ln \abs{c_2} - \ln \abs{c_2 - d_2 h}
-      \right)
-      +
-      \frac{d_1}{d_2} h,
-  \end{aligned}
-\end{equation}
-а в нашем случае
-\begin{equation*}
-  \begin{aligned}
-    c_1
-    &=
-      3 a_1 h - 1, &
-    d_1
-    &=
-      2 a_1, \\
-    c_2
-    &=
-      W_1 + W_2 h,
-    &
-    d_2
-    &=
-      W_2,
-  \end{aligned}
-\end{equation*}
-поэтому
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0} f(\theta) d\theta
-    &=
-      - \frac{\varphi_0 W}{4} \left[
-      \frac{(3 a_1 h - 1) W_2 - 2 a_1 (W_1 + W_2 h)}{W_2^2} \left(
-      \ln \left( W_1 + W_2 h \right)
-      -
-      \ln \left( W_1 + W_2 h - W_2 h \right)
-      \right)
-      +
-      \frac{2 a_1}{W_2} h
-      \right] = \\
-    &=
-      - \frac{\varphi_0 W}{4 W_2} \left[
-      \frac{a_1 h W_2 - 2 a_1 W_1 - W_2}{W_2}
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      +
-      2 a_1 h
-      \right].
-  \end{aligned}
-\end{equation*}
-Итак, окончательно можно записать выражение для константы $c$:
-\begin{equation*}
-  \begin{aligned}
-    c
-    &=
-      - \frac{\varphi_0 W}{4 W_2} \left[
-      \frac{a_1 h W_2 - 2 a_1 W_1 - W_2}{W_2}
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      +
-      2 a_1 h
-      \right]
-      \cdot {\left[
-      1 -
-      \frac{(a_1 - a_1^2 h) W}{4 W_2}
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      \right]}^{-1}
-      = \\
-    &=
-      - \frac{\varphi_0 W}{\cancel{4 W_2}} \left[
-      \frac{a_1 h W_2 - 2 a_1 W_1 - W_2}{W_2}
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      +
-      2 a_1 h
-      \right]
-      \cdot \left[
-      \frac{\cancel{4 W_2}}{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }
-      \right]
-      = \\
-    &=
-      - \varphi_0 W \cdot
-      \frac{
-      \left(a_1 h W_2 - 2 a_1 W_1 - W_2 \right)
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      + 2 a_1 W_2 h
-      }{W_2}
-      \cdot
-      \frac{1}{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }
-      = \\
-    &=
-      - \frac{\varphi_0 W}{W_2}
-      \cdot
-      \frac{
-      \left(a_1 h W_2 - 2 a_1 W_1 - W_2 \right)
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      + 2 a_1 W_2 h
-      }{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }.
-  \end{aligned}
-\end{equation*}
-Тогда искомая функция $\varphi(t)$ записывается в виде
-\begin{equation*}
-  \begin{aligned}
-    \varphi(t)
-    &=
-      -\frac{W (3 a_1 h - 1 + 2 a_1 t)}{4 (W_1 + W_2 (h + t))} \varphi_0
-      - \frac{\varphi_0 W}{W_2}
-      \cdot
-      \frac{
-      \left(a_1 h W_2 - 2 a_1 W_1 - W_2 \right)
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      + 2 a_1 W_2 h
-      }{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }
-      \frac{(a_1 - a_1^2 h) W}{4 (W_1 + W_2 (h + t))}
-      = \\
-    &=
-      - \frac{W \varphi_0}{4 (W_1 + W_2(h + t))}
-      \left[
-      2 a_1 t + 3 a_1 h - 1
-      +
-      \frac{
-      \left(a_1 h W_2 - 2 a_1 W_1 - W_2 \right)
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      + 2 a_1 W_2 h
-      }{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }
-      \frac{(a_1 - a_1^2 h) W}{W_2}
-      \right].
-  \end{aligned}
-\end{equation*}
-Для краткости будем представлять эту функцию в виде
-\begin{equation*}
-  \varphi(t) = - \frac{A t + B}{C t + D} \varphi_0,
-\end{equation*}
-где
-\begin{equation*}
-  \begin{aligned}
-    A
-    &=
-      2 W a_1, \\
-    B
-    &=
-      W
-      \left[
-      3 a_1 h - 1
-      +
-      \frac{
-      \left(a_1 h W_2 - 2 a_1 W_1 - W_2 \right)
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      + 2 a_1 W_2 h
-      }{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }
-      \frac{(a_1 - a_1^2 h) W}{W_2}
-      \right], \\
-    C
-    &=
-      4 W_2, \\
-    D
-    &=
-      4 W_1 + 4 W_2 h.
-  \end{aligned}
-\end{equation*}
-Проверим, что эта функция удовлетворяет второму необходимому
-условию~\eqref{eq:necessary-conds}:
-\begin{equation*}
-    \int\limits_{-h}^{0}
-    \left[
-      \frac{3 a_1 h - 1}{2}
-      W
-      +
-      a_1 W \theta
-    \right] \varphi(\theta) d\theta
-    =
-    \left(
-      2 \alpha_1
-      -
-      \frac{a_1 h - 1}{2 a_1}
-    \right)
-    \varphi(0).
-\end{equation*}
-Рассмотрим левую часть уравнения:
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0}
-    \left[
-    \frac{3 a_1 h - 1}{2}
-    W
-    +
-    a_1 W \theta
-    \right] \varphi(\theta) d\theta
-    &=
-      - 2 \varphi_0
-      \int\limits_{-h}^{0} \left(
-      A \theta + B_1
-      \right) \frac{A \theta + B_1 + B_2}{C \theta + D} d\theta = \\
-    &=
-      - 2 \varphi_0
-      \left[
-      \int\limits_{-h}^{0}
-      \frac{{(A \theta + B_1)}^2}{C \theta + D} d\theta
-      +
-      B_2
-      \int\limits_{-h}^{0}
-      \frac{a \theta + b_1}{c \theta + d} d\theta
-      \right],
-  \end{aligned}
-\end{equation*}
-где
-\begin{equation*}
-  \begin{aligned}
-    B_1 &= W (3 a_1 h - 1), \\
-    B_2 &=
-      \frac{
-      \left(a_1 h W_2 - 2 a_1 W_1 - W_2 \right)
-      \ln \left( 1 +  \frac{W_2}{W_1} h \right)
-      + 2 a_1 W_2 h
-      }{4 W_2 - (a_1 - a_1^2 h) W
-      \ln \left( 1 + \frac{W_2}{W_1} h \right)
-      }
-      \frac{(a_1 - a_1^2 h) W^2}{W_2}.
-  \end{aligned}
-\end{equation*}
-
-Рассмотрим первое слагаемое:
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0} \frac{{(A \theta + B_1)}^2}{C \theta + D} d\theta
-    &=
-    \int\limits_{-h}^{0} \frac{A^2 \theta^2 + 2 A B_1 \theta + B_1^2}{C \theta + D} d\theta.
-  \end{aligned}
-\end{equation*}
-Пусть $E := \dfrac{B_1}{A}$, тогда
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0} \frac{A^2 \theta^2 + 2 A B_1 \theta + B_1^2}{C \theta + D} d\theta
-    &=
-      \frac{A^2}{C}
-      \int\limits_{-h}^{0} \frac{C \theta^2 + 2 E C \theta + E^2 C}{C \theta + D} d\theta = \\
-    &=
-      \frac{A^2}{C}
-      \int\limits_{-h}^{0} \frac{
-      C \theta^2 + D \theta + (2 E C - D) \theta + E^2 C
-      }{C \theta + D} d\theta = \\
-    &=
-      \frac{A^2}{C}
-      \left[
-      \int\limits_{-h}^{0} \theta d\theta
-      +
-      \int\limits_{-h}^{0} \frac{
-      (2 E C - D) \theta + E^2 C
-      }{C \theta + D} d\theta
-      \right] \overset{\eqref{eq:int-formula}}{=} \\
-    &=
-      \frac{A^2}{C}
-      \left[
-      -
-      \frac{h^2}{2}
-      +
-      \frac{E^2 C^2 - 2 E C D + D^2}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      +
-      \frac{2 E C - D}{C} h
-      \right] = \\
-    &=
-      -
-      \frac{h^2 A^2}{2 C}
-      +
-      \frac{B_1^2 C^2 - 2 A B_1 C D + A^2 D^2}{C^3}
-      \ln \left( \frac{D}{D - C h} \right)
-      +
-      \frac{2 A B_1 C - A^2 D}{C^2} h = \\
-    &=
-      -
-      \frac{h^2 A^2}{2 C}
-      +
-      \frac{{(B_1 C - A D)}^2}{C^3}
-      \ln \left( \frac{D}{D - C h} \right)
-      +
-      \frac{2 A B_1 C - A^2 D}{C^2} h.
-  \end{aligned}
-\end{equation*}
-Для второго слагаемого можно сразу воспользоваться формулой~\eqref{eq:int-formula}:
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0}
-    \frac{A \theta + B_1}{C \theta + D} d\theta
-    &=
-      \frac{B_1 C - A D}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      +
-      \frac{A}{C} h.
-  \end{aligned}
-\end{equation*}
-Тогда
-\begin{equation*}
-  \begin{aligned}
-    \int\limits_{-h}^{0}
-    \left[
-    \frac{3 a_1 h - 1}{2}
-    W
-    +
-    a_1 W \theta
-    \right] \varphi(\theta) d\theta
-    &=
-      -2 \varphi_0
-      \left[
-      -
-      \frac{h^2 A^2}{2 C}
-      +
-      \frac{{(B_1 C - A D)}^2}{C^3}
-      \ln \left( \frac{D}{D - C h} \right)
-      +
-      \frac{2 A B_1 C - A^2 D}{C^2} h
-      \right. + \\
-    &\phantom{= -2 \varphi_0}
-      \left.
-      + B_2 \left(
-      \frac{B_1 C - A D}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      +
-      \frac{A}{C} h
-      \right)
-      \right] = \\
-    &=
-      \varphi_0
-      \left[
-      \frac{h^2 A^2}{C}
-      - 2
-      \frac{B_1 C - A D}{C} \cdot
-      \frac{B_1 C - A D}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      \right. - \\
-    &\phantom{= -2 \varphi_0}
-      \left.
-      - 2 \frac{2 B_1 C - A D}{C} \cdot \frac{A}{C} h
-      - 2 B_2
-      \frac{B_1 C - A D}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      -2 B_2
-      \frac{A}{C} h
-      \right] = \\
-    &=
-      - 2
-      \varphi_0
-      \left[
-      \left(
-      B_2 + \frac{B_1 C - A D}{C}
-      \right)
-      \frac{B_1 C - A D}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      \right. + \\
-    &\phantom{= -2 \varphi_0}
-      \left.
-      \left( B_2 + \frac{2 B_1 C - A D}{C} - \frac{A h }{2} \right)
-      \frac{A}{C} h
-      \right] = \\
-    &=
-      - 2
-      \varphi_0
-      \left[
-      \frac{B C - A D}{C} \cdot
-      \frac{B_1 C - A D}{C^2}
-      \ln \left( \frac{D}{D - C h} \right)
-      \right. + \\
-    &\phantom{= -2 \varphi_0}
-      \left.
-      \left( \frac{B C + B_1 C - A D}{C} - \frac{A h }{2} \right)
-      \frac{A}{C} h
-      \right].
-  \end{aligned}
-\end{equation*}
-Сравнивая полученное выражение с правой частью исходного уравнения
-\begin{equation*}
-  \left(
-    2 \alpha_1
-    -
-    \frac{a_1 h - 1}{2 a_1}
-  \right)
-  \varphi(0)
-  =
-  -
-  \left(
-    2 \alpha_1
-    -
-    \frac{B_1 - A h}{A}
-  \right)
-  \frac{B}{D} \varphi_0,
-\end{equation*}
-приходим к выводу, что
-\begin{equation*}
-  \frac{B C - A D}{C} \cdot
-  \frac{B_1 C - A D}{C^2}
-  \ln \left( \frac{D}{D - C h} \right)
-  +
-  \left( \frac{B C + B_1 C - A D}{C} - \frac{A h }{2} \right)
-  \frac{A}{C} h
-  =
-  \left(
-    \alpha_1
-    -
-    \frac{B_1 - A h}{2 A}
-  \right)
-  \frac{B}{D}.
-\end{equation*}
-Значит, функция $\varphi(t)$ является единственной нетривиальной экстремалью
-тогда и только тогда, когда
-\begin{equation*}
-  \alpha_1
-  =
-  \frac{D}{B} \cdot
-  \frac{B C - A D}{C} \cdot
-  \frac{B_1 C - A D}{C^2}
-  \ln \left( \frac{D}{D - C h} \right)
-  +
-  \left( \frac{B C + B_1 C - A D}{C} - \frac{A h }{2} \right)
-  \frac{AD}{BC} h
-  +
-  \frac{B_1 - A h}{2 A}.
+  \lambda = -a_1^2.
 \end{equation*}
 
 \newpage
@@ -1935,6 +1684,14 @@ $a_0$ и $a_1$ разных знаков.
   } \cos \lambda \tau
   - \frac{W}{2 \lambda} \sin \lambda \tau.
 \end{equation*}
+
+% \newpage
+
+% \appendix
+
+% \section{Приложение}
+
+% \subsection{Таблица интегралов}
 
 \newpage
 

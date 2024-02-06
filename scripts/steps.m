@@ -1,17 +1,20 @@
-pkg load symbolic;
-syms t real positive;
+% -*- mode: octave -*-
 
-A0 = -8;
+pkg load symbolic;
+syms t real;
+
+A0 = -1;
 A1 = -1;
 H = 2;
 T0 = 0;
 ## PHI = (t+H)^2;
 ## PHI = sym(1);
 ## PHI = H + t;
-PHI = e^t;
+## PHI = e^t;
+PHI = piecewise(t < -H / 10, -1, 1)
 MAX = max(subs(PHI, T0), subs(PHI, T0 - H));
 ## PHI = 1 + t;
-STEPS = 5;
+STEPS = 4;
 SHOW_ABS = false;
 
 fprintf(" --- Estimate ---\n");
@@ -83,6 +86,18 @@ if ~SHOW_ABS
   estimate = -gamma * MAX * e^(-beta * t)
   hf = ezplot(estimate, [T0 T0+STEPS*H]);
   set(hf, 'Color', 'red');
+end
+
+gamma = 1;
+
+estimate = gamma * MAX * e^(-beta * t)
+hf = ezplot(estimate, [T0 T0+STEPS*H]);
+set(hf, 'Color', 'green');
+
+if ~SHOW_ABS
+  estimate = -gamma * MAX * e^(-beta * t)
+  hf = ezplot(estimate, [T0 T0+STEPS*H]);
+  set(hf, 'Color', 'green');
 end
 
 title("Сравнение с методом шагов")
